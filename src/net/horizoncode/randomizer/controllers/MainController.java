@@ -105,19 +105,19 @@ public class MainController {
 							filenames.addAll(FileUtil.streamToList(Main.class.getResourceAsStream("/assets/textures_osu.txt")));
 						}
 
-						if (!checkbox_ctb.isSelected()) {
+						if (checkbox_ctb.isSelected()) {
 							filenames.addAll(FileUtil.streamToList(Main.class.getResourceAsStream("/assets/textures_ctb.txt")));
 						}
 
-						if (!checkbox_taiko.isSelected()) {
+						if (checkbox_taiko.isSelected()) {
 							filenames.addAll(FileUtil.streamToList(Main.class.getResourceAsStream("/assets/textures_taiko.txt")));
 						}
 
-						if (!checkbox_mania.isSelected()) {
+						if (checkbox_mania.isSelected()) {
 							filenames.addAll(FileUtil.streamToList(Main.class.getResourceAsStream("/assets/textures_mania.txt")));
 						}
 
-						if (!checkbox_sounds.isSelected()) {
+						if (checkbox_sounds.isSelected()) {
 							filenames.addAll(FileUtil.streamToList(Main.class.getResourceAsStream("/assets/sounds.txt")));
 						}
 
