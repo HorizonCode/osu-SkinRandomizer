@@ -2,11 +2,12 @@ package net.horizoncode.randomizer.controllers;
 
 import java.io.File;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXSpinner;
+import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXTextField;
 
 import javafx.application.Platform;
@@ -44,15 +45,32 @@ public class MainController {
 	public JFXButton btb_randomize;
 
 	@FXML
-	public JFXSpinner spinner;
+	private JFXCheckBox checkbox_osu;
+
+	@FXML
+	private JFXCheckBox checkbox_mania;
+
+	@FXML
+	private JFXCheckBox checkbox_ctb;
+
+	@FXML
+	private JFXCheckBox checkbox_taiko;
+
+	@FXML
+	private JFXCheckBox checkbox_sounds;
 
 	@FXML
 	void initialize() {
+		assert stackPane != null : "fx:id=\"stackPane\" was not injected: check your FXML file 'MainPanel.fxml'.";
 		assert txtField_osuSkinsPath != null : "fx:id=\"txtField_osuSkinsPath\" was not injected: check your FXML file 'MainPanel.fxml'.";
 		assert btn_browse != null : "fx:id=\"btn_browse\" was not injected: check your FXML file 'MainPanel.fxml'.";
 		assert txtField_NameOfTheSkin != null : "fx:id=\"txtField_NameOfTheSkin\" was not injected: check your FXML file 'MainPanel.fxml'.";
 		assert btb_randomize != null : "fx:id=\"btb_randomize\" was not injected: check your FXML file 'MainPanel.fxml'.";
-		assert spinner != null : "fx:id=\"spinner\" was not injected: check your FXML file 'MainPanel.fxml'.";
+		assert checkbox_osu != null : "fx:id=\"checkbox_osu\" was not injected: check your FXML file 'MainPanel.fxml'.";
+		assert checkbox_mania != null : "fx:id=\"checkbox_mania\" was not injected: check your FXML file 'MainPanel.fxml'.";
+		assert checkbox_ctb != null : "fx:id=\"checkbox_ctb\" was not injected: check your FXML file 'MainPanel.fxml'.";
+		assert checkbox_taiko != null : "fx:id=\"checkbox_taiko\" was not injected: check your FXML file 'MainPanel.fxml'.";
+		assert checkbox_sounds != null : "fx:id=\"checkbox_sounds\" was not injected: check your FXML file 'MainPanel.fxml'.";
 
 		Main.mainController = this;
 
@@ -81,10 +99,35 @@ public class MainController {
 							return;
 						}
 
+						List<String> filenames = new ArrayList<String>();
+
+						if (!checkbox_osu.isSelected()) {
+							filenames.addAll(FileUtil.streamToList(Main.class.getResourceAsStream("/assets/textures_osu.txt")));
+						}
+
+						if (!checkbox_ctb.isSelected()) {
+							filenames.addAll(FileUtil.streamToList(Main.class.getResourceAsStream("/assets/textures_ctb.txt")));
+						}
+
+						if (!checkbox_taiko.isSelected()) {
+							filenames.addAll(FileUtil.streamToList(Main.class.getResourceAsStream("/assets/textures_taiko.txt")));
+						}
+
+						if (!checkbox_mania.isSelected()) {
+							filenames.addAll(FileUtil.streamToList(Main.class.getResourceAsStream("/assets/textures_mania.txt")));
+						}
+
+						if (!checkbox_sounds.isSelected()) {
+							filenames.addAll(FileUtil.streamToList(Main.class.getResourceAsStream("/assets/sounds.txt")));
+						}
+
+						filenames.addAll(FileUtil.streamToList(Main.class.getResourceAsStream("/assets/textures_numbers.txt")));
+						filenames.addAll(FileUtil.streamToList(Main.class.getResourceAsStream("/assets/textures_ui.txt")));
+
 						File output = new File(directory, txtField_NameOfTheSkin.getText());
 						List<File> files = FileUtil.listFiles(directory, output);
 
-						new RandomSkinUntil(files, output);
+						new RandomSkinUntil(files, filenames, output);
 
 					}
 				});

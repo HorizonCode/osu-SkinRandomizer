@@ -17,12 +17,14 @@ import net.horizoncode.randomizer.Main;
 public class RandomSkinUntil {
 
 	private List<File> files;
+	private List<String> filter;
 	private List<File> outputFiles;
 	private File outputDirectory;
 	private Random rnd;
 
-	public RandomSkinUntil(List<File> files, File output) {
+	public RandomSkinUntil(List<File> files, List<String> filter, File output) {
 		this.files = files;
+		this.filter = filter;
 		this.outputDirectory = output;
 		outputFiles = new ArrayList<File>();
 		this.rnd = new Random();
@@ -31,8 +33,7 @@ public class RandomSkinUntil {
 		} else {
 			output.mkdir();
 		}
-		pickTextures();
-		pickSounds();
+		pickFiles();
 		prepareOutput();
 		Platform.runLater(new Runnable() {
 
@@ -53,54 +54,15 @@ public class RandomSkinUntil {
 		}
 	}
 
-	private void pickTextures() {
-		BufferedReader br = new BufferedReader(new InputStreamReader(Main.class.getResourceAsStream("/assets/textures.txt")));
-		String texture = "";
-		try {
-			while ((texture = br.readLine()) != null) {
-				String tex = texture;
-				List<File> filteredFiles = files.stream().filter(file -> file.getName().toLowerCase().contains(tex.toLowerCase())).collect(Collectors.toList());
-				if (filteredFiles.size() <= 0)
-					continue;
-				File random = filteredFiles.get(rnd.nextInt(filteredFiles.size()));
-				if (random == null)
-					continue;
-				outputFiles.add(random);
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		try {
-			br.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+	private void pickFiles() {
+		for (String fileName : filter) {
+			List<File> filteredFiles = files.stream().filter(file -> file.getName().toLowerCase().contains(fileName.toLowerCase())).collect(Collectors.toList());
+			if (filteredFiles.size() <= 0)
+				continue;
+			File random = filteredFiles.get(rnd.nextInt(filteredFiles.size()));
+			if (random == null)
+				continue;
+			outputFiles.add(random);
 		}
 	}
-
-	private void pickSounds() {
-		BufferedReader br = new BufferedReader(new InputStreamReader(Main.class.getResourceAsStream("/assets/sounds.txt")));
-		String sound = "";
-		try {
-			while ((sound = br.readLine()) != null) {
-				String snd = sound;
-				List<File> filteredFiles = files.stream().filter(file -> file.getName().toLowerCase().contains(snd.toLowerCase())).collect(Collectors.toList());
-				if (filteredFiles.size() <= 0)
-					continue;
-				File random = filteredFiles.get(rnd.nextInt(filteredFiles.size()));
-				if (random == null)
-					continue;
-				outputFiles.add(random);
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		try {
-			br.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
 }

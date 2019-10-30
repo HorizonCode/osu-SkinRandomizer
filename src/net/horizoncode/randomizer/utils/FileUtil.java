@@ -1,8 +1,13 @@
 package net.horizoncode.randomizer.utils;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+
+import net.horizoncode.randomizer.Main;
 
 public class FileUtil {
 
@@ -28,6 +33,21 @@ public class FileUtil {
 				collectedFiles.add(file);
 			}
 		}
+	}
+
+	public static List<String> streamToList(InputStream stream) {
+		List<String> objects = new ArrayList<String>();
+		BufferedReader br = new BufferedReader(new InputStreamReader(stream));
+		String object = "";
+		try {
+			while ((object = br.readLine()) != null) {
+				objects.add(object);
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		return objects;
+
 	}
 
 }
