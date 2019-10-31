@@ -101,7 +101,7 @@ public class MainController {
 
 						List<String> filenames = new ArrayList<String>();
 
-						if (!checkbox_osu.isSelected()) {
+						if (checkbox_osu.isSelected()) {
 							filenames.addAll(FileUtil.streamToList(Main.class.getResourceAsStream("/assets/textures_osu.txt")));
 						}
 
